@@ -3,6 +3,11 @@
  */
 
 /**
+ * Entities
+ */
+export * from './lib/entities/tots-base-login-page-config';
+
+/**
  * Pages
  */
 export * from './lib/pages/login-basic-page/login-basic-page.component';

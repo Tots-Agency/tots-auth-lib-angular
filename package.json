@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build2": "ng build --project=@tots/auth --configuration production && cd dist/tots/auth/ && npm publish --access public",
+    "build3": "ng build --project=@tots/auth-layout --configuration production && cd dist/tots/auth-layout && npm publish --access public",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
