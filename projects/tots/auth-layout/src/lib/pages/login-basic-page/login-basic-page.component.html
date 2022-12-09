@@ -1,12 +1,12 @@
 <div *ngIf="config" class="login">
     <div class="scroll">
 
-        <div *ngIf="isLoading" class="content">
+        <div *ngIf="isSending" class="content">
             <!-- <app-loading-bound-circles></app-loading-bound-circles> -->
             {{config.textLoading??'Loading...'}}
         </div>
 
-        <div *ngIf="!isLoading && formGroup" class="content intro-component-animation" [formGroup]="formGroup!">
+        <div *ngIf="!isSending && formGroup" class="content intro-component-animation" [formGroup]="formGroup!">
             <div *ngIf="config.imageLogo != '' && config.imageLogo != undefined" class="logo">
                 <a [routerLink]="config.pathHome">
                     <img [src]="config.imageLogo" alt="">

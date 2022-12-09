@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -13,11 +14,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { LoginBasicPageComponent } from './pages/login-basic-page/login-basic-page.component';
 
 
+
 @NgModule({
   declarations: [
     LoginBasicPageComponent
   ],
   imports: [
+    CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
