@@ -4,7 +4,8 @@
   "peerDependencies": {
     "@angular/common": "^14.2.0",
     "@angular/core": "^14.2.0",
-    "@ngx-pwa/local-storage": "^13.0.5"
+    "@ngx-pwa/local-storage": "^13.0.5",
+    "@tots/core": "^14.2.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"
