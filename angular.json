@@ -3,5 +3,39 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "@tots/auth": {
+      "projectType": "library",
+      "root": "projects/tots/auth",
+      "sourceRoot": "projects/tots/auth/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tots/auth/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tots/auth/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tots/auth/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tots/auth/src/test.ts",
+            "tsConfig": "projects/tots/auth/tsconfig.spec.json",
+            "karmaConfig": "projects/tots/auth/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "82866676-762d-4cc9-be97-3d5d334dff00"
   }
 }
