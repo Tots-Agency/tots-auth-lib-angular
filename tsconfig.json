@@ -5,6 +5,9 @@
     "paths": {
       "@tots/auth": [
         "dist/tots/auth"
+      ],
+      "@tots/auth-layout": [
+        "dist/tots/auth-layout"
       ]
     },
     "baseUrl": "./",

@@ -33,6 +33,37 @@
           }
         }
       }
+    },
+    "@tots/auth-layout": {
+      "projectType": "library",
+      "root": "projects/tots/auth-layout",
+      "sourceRoot": "projects/tots/auth-layout/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tots/auth-layout/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tots/auth-layout/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tots/auth-layout/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tots/auth-layout/src/test.ts",
+            "tsConfig": "projects/tots/auth-layout/tsconfig.spec.json",
+            "karmaConfig": "projects/tots/auth-layout/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "cli": {
