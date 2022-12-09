@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TotsAuthService } from '@tots/auth';
-import { switchMap } from 'rxjs';
+import { catchError, switchMap } from 'rxjs';
 import { TotsBaseLoginPageConfig } from '../../entities/tots-base-login-page-config';
 
 @Component({
@@ -17,6 +17,8 @@ export class LoginBasicPageComponent implements OnInit {
   formGroup?: UntypedFormGroup;
 
   hidePassword = true;
+  messageError = '';
+  isSending = false;
 
   constructor(
     protected route: ActivatedRoute,
@@ -31,7 +33,37 @@ export class LoginBasicPageComponent implements OnInit {
   }
 
   onClickLogin() {
-    
+    if(this.isSending){
+      return;
+    }
+
+    // Limpiar mensaje de error
+    this.messageError = '';
+    // Verificar si ingreso el email
+    if (this.formGroup!.get('email')!.value == '') {
+      this.messageError = this.config.textErrorEmail ?? 'You must enter email address';
+      return;
+    }
+    if (this.formGroup!.get('password')!.value == '') {
+      this.messageError = this.config.textErrorPassword ?? 'You must password';
+      return;
+    }
+
+    this.isSending = true;
+    this.authService
+    .signIn(this.formGroup!.get('email')!.value, this.formGroup!.get('password')!.value)
+    .pipe(catchError(error => {
+      this.isSending = false;
+      if (error && error.message) {
+        this.messageError = error.message;
+      }
+      throw error;
+    }))
+    .subscribe(res => {
+      this.isSending = false;
+      this.router.navigateByUrl(this.config.pathSuccess);
+    });
+
   }
 
   loadForm() {

@@ -31,21 +31,21 @@
             </mat-form-field>
 
             <button *ngIf="config.hasRecoveryPassword" mat-button color="primary" class="button-small"
-                [routerLink]="config.routeRecovery"> {{ config.forgotPasswordLabel?config.forgotPasswordLabel:'Forgot password' }} </button>
+                [routerLink]="config.pathRecovery"> {{ config.textForgotPassword??'Forgot password' }} </button>
 
-            <div *ngIf="messageError != ''" class="alert alert-error">{{ messageError }}</div>
+            <div *ngIf="messageError!=''" class="alert alert-error">{{ messageError }}</div>
 
-            <button mat-raised-button color="primary" class="btn" (click)="onClickLogin()"> {{ config.loginButtonLabel?config.loginButtonLabel:'LOG IN' }} </button>
+            <button mat-raised-button color="primary" class="btn" (click)="onClickLogin()"> {{ config.textLoginButton??'SIGN IN' }} </button>
 
             <div *ngIf="config.hasRegister" style="text-align: center;">
-                <a [routerLink]="config.routeRegister" class="link hover-linear body-2"> {{ config.signupLinkText?config.signupLinkText:'Don’t have an account? Sign Up' }}
+                <a [routerLink]="config.pathRegister" class="link hover-linear body-2"> {{ config.textRegister??'Don’t have an account? Sign Up' }}
                 </a>
             </div>
         </div>
     </div>
 
     <div class="illustration">
-        <h2 class="quote"><i> {{ config.phrase }} </i></h2>
+        <h2 class="quote"><i> {{ config.textPhraseRight}} </i></h2>
         <img *ngIf="config.imageRight != ''" [src]="config.imageRight" alt="illustration" />
     </div>
 </div>
