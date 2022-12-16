@@ -53,10 +53,12 @@ export class LoginBasicPageComponent implements OnInit {
     this.authService
     .signIn(this.formGroup!.get('email')!.value, this.formGroup!.get('password')!.value)
     .pipe(catchError(error => {
-      console.log(error);
       this.isSending = false;
       if (error && error.message) {
         this.messageError = error.message;
+      }
+      if (error && error.error && error.error.message) {
+        this.messageError = error.error.message;
       }
       throw error;
     }))
