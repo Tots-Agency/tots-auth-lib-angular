@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TotsCoreConfig, TOTS_CORE_PROVIDER } from '@tots/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { TotsTokenUser } from '../entities/tots-token-user';
+import { TotsUser } from '../entities/tots-user';
 
 export const TOTS_AUTH_KEY_STORAGE_TOKEN = 'tots.auth.storage';
 
@@ -43,6 +44,16 @@ export class TotsAuthService {
 
   setUserInStorage(user: TotsTokenUser): Observable<any> {
     return this.storage.set(TOTS_AUTH_KEY_STORAGE_TOKEN, JSON.stringify(user), { type: 'string' });
+  }
+
+  setUserBasicInStorage(user: any): Observable<any> {
+    return this.getUserFromStorage()
+    .pipe(map(token => {
+      user.access_token = token.access_token;
+      user.token_type = token.token_type;
+      return user;
+    }))
+    .pipe(switchMap(token => this.setUserInStorage(token)));
   }
 
   getUserFromStorage(): Observable<TotsTokenUser> {
