@@ -22,6 +22,7 @@ export * from './lib/guards/tots-auth.guard';
  * Services
  */
 export * from './lib/services/tots-auth.service';
+export * from './lib/services/tots-user.service';
 
 /**
  * Modules
