@@ -25,6 +25,10 @@ export class TotsAuthService {
     this.init();
   }
 
+  changePassword(oldPassword: string, newPassword: string): Observable<TotsUser> {
+    return this.http.post<TotsUser>(this.config.baseUrl + 'auth/change-password', { old_password: oldPassword, password: newPassword });
+  }
+
   signIn(email: string, password: string): Observable<TotsTokenUser> {
     return this.http.post<TotsTokenUser>(this.config.baseUrl + 'auth/login', { email: email, password: password })
     .pipe(tap(user => this.saveUserInStorage(user)))
