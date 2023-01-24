@@ -11,6 +11,8 @@ export class TotsBaseLoginPageConfig {
     hasRegister?: boolean = true;
     hasRecoveryPassword?: boolean = true;
 
+    hasSavedUser?: boolean = true;
+
     textTitle?: string;
     textLoading?: string;
     textEmail?: string;

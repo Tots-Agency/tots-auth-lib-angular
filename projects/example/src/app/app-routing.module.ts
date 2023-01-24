@@ -10,6 +10,7 @@ const routes: Routes = [
     data: {
       pathHome: '/dashboard',
       pathSuccess: '/dashboard',
+      hasSavedUser: true
     } as TotsBaseLoginPageConfig
   },
   { path: 'dashboard', component: DashboardComponent }

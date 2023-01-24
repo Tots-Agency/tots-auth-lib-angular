@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TotsAuthService } from '@tots/auth';
-import { catchError, switchMap } from 'rxjs';
+import { StorageMap } from '@ngx-pwa/local-storage';
+import { TotsAuthService, TotsTokenUser, TotsUser } from '@tots/auth';
+import { catchError, map, switchMap } from 'rxjs';
 import { TotsBaseLoginPageConfig } from '../../entities/tots-base-login-page-config';
+
+export const TOTS_AUTH_LAYOUT_KEY_STORAGE_EMAIL = 'tots.auth.layout.storage';
 
 @Component({
   selector: 'tots-login-basic-page',
@@ -20,16 +23,21 @@ export class LoginBasicPageComponent implements OnInit {
   messageError = '';
   isSending = false;
 
+  userSaved?: TotsUser;
+  step = 1;
+
   constructor(
     protected route: ActivatedRoute,
     protected authService: TotsAuthService,
     protected router: Router,
-    protected formBuilder: UntypedFormBuilder
+    protected formBuilder: UntypedFormBuilder,
+    protected storage: StorageMap
   ) { }
 
   ngOnInit(): void {
     this.loadConfig();
     this.loadForm();
+    this.verifyIfSavedUser();
   }
 
   onClickLogin() {
@@ -63,10 +71,45 @@ export class LoginBasicPageComponent implements OnInit {
       throw error;
     }))
     .subscribe(res => {
+      this.saveUserInBrowser(res);
       this.isSending = false;
       this.router.navigateByUrl(this.config.pathSuccess);
     });
 
+  }
+
+  onClickUserSaved() {
+    this.formGroup?.get('email')?.setValue(this.userSaved?.email);
+    this.step = 2;
+  }
+
+  saveUserInBrowser(user: TotsTokenUser) {
+    let data = {
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      photo: user.photo
+    };
+    this.storage
+    .set(TOTS_AUTH_LAYOUT_KEY_STORAGE_EMAIL, JSON.stringify(data), { type: 'string' })
+    .subscribe();
+  }
+
+  verifyIfSavedUser() {
+    if(!this.config.hasSavedUser){
+      this.step = 2;
+      return;
+    }
+
+    this.storage.get<string>(TOTS_AUTH_LAYOUT_KEY_STORAGE_EMAIL, { type: 'string' })
+    .subscribe(data => {
+      if(data == undefined||data == ''){
+        this.step = 2;
+        return;
+      }
+
+      this.userSaved = JSON.parse(data);
+    });
   }
 
   loadForm() {
