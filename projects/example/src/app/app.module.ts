@@ -28,7 +28,7 @@ import { TotsAuthLayoutModule } from 'projects/tots/auth-layout/src/public-api';
     {
       provide: TOTS_CORE_PROVIDER,
       useValue: {
-        baseUrl: 'http://0.0.0.0:8080/'
+        baseUrl: 'http://0.0.0.0:8000/'
       }
     },
     {

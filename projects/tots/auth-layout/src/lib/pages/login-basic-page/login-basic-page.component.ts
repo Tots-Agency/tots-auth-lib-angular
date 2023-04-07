@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TotsAuthService, TotsTokenUser, TotsUser } from '@tots/auth';
-import { catchError, map, switchMap } from 'rxjs';
+import { catchError, delay, map, switchMap, tap } from 'rxjs';
 import { TotsBaseLoginPageConfig } from '../../entities/tots-base-login-page-config';
 
 export const TOTS_AUTH_LAYOUT_KEY_STORAGE_EMAIL = 'tots.auth.layout.storage';
@@ -21,7 +21,7 @@ export class LoginBasicPageComponent implements OnInit {
 
   hidePassword = true;
   messageError = '';
-  isSending = false;
+  isSending = true;
 
   userSaved?: TotsUser;
   step = 1;
@@ -133,21 +133,25 @@ export class LoginBasicPageComponent implements OnInit {
     }
   }
 
-  verifyIfLogged() {
-    if(this.authService.isLoggedIn.value){
-      this.router.navigateByUrl(this.config.pathSuccess);
-    }
-  }
-
   loadConfig() {
     this.route.data
     .pipe(switchMap(data => {
       this.config = data as TotsBaseLoginPageConfig;
       return this.route.queryParams;
     }))
-    .subscribe(params => {
-      this.processRedirectUrl(params['redirect']);
-      this.verifyIfLogged();
+    .pipe(tap(params => this.processRedirectUrl(params['redirect'])))
+    .pipe(switchMap(params => this.authService.getUserFromStorage()))
+    .pipe(map(user => {
+      if(user.access_token == ''||user.access_token == undefined){
+        return false;
+      }
+      return true;
+    }))
+    .subscribe(isLogged => {
+      this.isSending = false;
+      if(isLogged){
+        this.router.navigateByUrl(this.config.pathSuccess);
+      }
     });
   }
 }
