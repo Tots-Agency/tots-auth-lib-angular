@@ -154,4 +154,10 @@ export class LoginBasicPageComponent implements OnInit {
       }
     });
   }
+
+  onErrorIconAvatarUser(element: any) {
+    if(this.config.iconAvatarPlaceholder != undefined){
+      element.target.src = this.config.iconAvatarPlaceholder;
+    }
+  }
 }

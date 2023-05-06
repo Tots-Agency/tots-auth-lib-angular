@@ -18,12 +18,14 @@
 
             <div *ngIf="step == 1" class="container-step-one">
                 <div *ngIf="userSaved" class="user" (click)="onClickUserSaved()">
-                    <img [src]="userSaved.photo" />
-                    <p>{{userSaved.firstname}} {{userSaved.lastname}}</p>
-                    <p>{{userSaved.email}}</p>
+                    <img [src]="userSaved.photo" (error)="onErrorIconAvatarUser($event)" />
+                    <div class="info">
+                        <p><strong>{{userSaved.firstname}} {{userSaved.lastname}}</strong></p>
+                        <p>{{userSaved.email}}</p>
+                    </div>
                 </div>
                 <div class="other-user" (click)="step = 2">
-                    <p>Ingresar con otro usuario: ></p>
+                    <p>{{ config.textSignInWithOtherUser??'Sign in with other user...' }}</p>
                 </div>
             </div>
 
@@ -47,12 +49,12 @@
                 <button *ngIf="config.hasRecoveryPassword" mat-button color="primary" class="button-small"
                     [routerLink]="config.pathRecovery"> {{ config.textForgotPassword??'Forgot password' }} </button>
     
-                <div *ngIf="messageError!=''" class="alert alert-error">{{ messageError }}</div>
+                <div *ngIf="messageError!=''" class="alert alert-error"><p>{{messageError}}</p></div>
     
                 <button mat-raised-button color="primary" class="btn" (click)="onClickLogin()"> {{ config.textLoginButton??'SIGN IN' }} </button>
             </div>
 
-            <div *ngIf="config.hasRegister" style="text-align: center;">
+            <div *ngIf="config.hasRegister && step == 2" style="text-align: center;">
                 <a [routerLink]="config.pathRegister" class="link hover-linear body-2"> {{ config.textRegister??'Don’t have an account? Sign Up' }}
                 </a>
             </div>

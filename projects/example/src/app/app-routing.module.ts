@@ -11,7 +11,14 @@ const routes: Routes = [
     data: {
       pathHome: '/dashboard',
       pathSuccess: '/dashboard',
-      hasSavedUser: true
+      pathRegister: '/auth/register',
+      hasSavedUser: true,
+      imageLogo: 'assets/icon-1.png',
+      hasRegister: true,
+      iconAvatarPlaceholder: 'assets/icon_avatar_placeholder.png',
+      textPhraseRight: 'Welcome to our community',
+      imageRight: 'assets/image_splash3.jpg',
+      textSignInWithOtherUser: 'Ingresar con otro usuario...'
     } as TotsBaseLoginPageConfig
   },
   { path: 'dashboard',canActivate: [TotsAuthGuard], component: DashboardComponent },

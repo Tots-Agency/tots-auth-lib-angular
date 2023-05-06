@@ -7,6 +7,7 @@ export class TotsBaseLoginPageConfig {
 
     imageLogo?: string;
     imageRight?: string;
+    iconAvatarPlaceholder?: string;
 
     hasRegister?: boolean = true;
     hasRecoveryPassword?: boolean = true;
@@ -25,4 +26,5 @@ export class TotsBaseLoginPageConfig {
     textPhraseRight?: string;
     textErrorEmail?: string;
     textErrorPassword?: string;
+    textSignInWithOtherUser?: string;
 }
