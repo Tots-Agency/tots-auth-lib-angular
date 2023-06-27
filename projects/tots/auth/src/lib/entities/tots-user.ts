@@ -1,4 +1,8 @@
 export class TotsUser {
+    static STATUS_INACTIVE = 0;
+    static STATUS_ACTIVE = 1;
+    static STATUS_SUSPENDED = 2;
+
     public id?: number;
     public firstname: string = '';
     public lastname: string = '';
