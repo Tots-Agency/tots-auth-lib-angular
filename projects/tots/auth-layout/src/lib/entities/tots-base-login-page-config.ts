@@ -14,6 +14,8 @@ export class TotsBaseLoginPageConfig {
 
     hasSavedUser?: boolean = true;
 
+    roleValidation?: Array<number>;
+
     textTitle?: string;
     textLoading?: string;
     textEmail?: string;

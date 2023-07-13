@@ -70,6 +70,7 @@ export class LoginBasicPageComponent implements OnInit {
       }
       throw error;
     }))
+    .pipe(tap(user => this.roleValidation(user)))
     .subscribe(res => {
       this.saveUserInBrowser(res);
       this.isSending = false;
@@ -77,6 +78,22 @@ export class LoginBasicPageComponent implements OnInit {
     });
 
   }
+
+  roleValidation(user: TotsTokenUser) {
+    if(this.config.roleValidation == undefined||this.config.roleValidation.length == 0){
+      return;
+    }
+
+    if(this.config.roleValidation.includes(user.role)){
+      return;
+    }
+
+    this.isSending = false;
+    this.messageError = 'Role not valid';
+    this.authService.signOut().subscribe();
+    throw 'Role not valid';
+  }
+
 
   onClickUserSaved() {
     this.formGroup?.get('email')?.setValue(this.userSaved?.email);
