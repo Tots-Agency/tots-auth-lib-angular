@@ -5,8 +5,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TotsAuthGuard } from 'projects/tots/auth/src/public-api';
 
 const routes: Routes = [
-  { 
-    path: 'auth/login', 
+  {
+    path: 'auth/login',
     component: LoginBasicPageComponent,
     data: {
       pathHome: '/dashboard',
@@ -18,7 +18,8 @@ const routes: Routes = [
       iconAvatarPlaceholder: 'assets/icon_avatar_placeholder.png',
       textPhraseRight: 'Welcome to our community',
       imageRight: 'assets/image_splash3.jpg',
-      textSignInWithOtherUser: 'Ingresar con otro usuario...'
+      textSignInWithOtherUser: 'Ingresar con otro usuario...',
+      hasRecoveryPassword: true,
     } as TotsBaseLoginPageConfig
   },
   { path: 'dashboard',canActivate: [TotsAuthGuard], component: DashboardComponent },
