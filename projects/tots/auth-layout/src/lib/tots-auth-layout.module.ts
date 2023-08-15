@@ -8,7 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 /** Pages */
 import { LoginBasicPageComponent } from './pages/login-basic-page/login-basic-page.component';
@@ -29,7 +30,7 @@ import { LoginBasicPageComponent } from './pages/login-basic-page/login-basic-pa
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatDividerModule
+    MatProgressSpinnerModule,
   ],
   exports: [
     LoginBasicPageComponent

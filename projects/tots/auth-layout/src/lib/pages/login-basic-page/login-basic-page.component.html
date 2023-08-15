@@ -1,68 +1,60 @@
-<div *ngIf="config" class="login">
-    <div class="scroll">
+<div *ngIf="config" class="login_page intro_component_blur">
 
-        <div *ngIf="isSending" class="content">
-            <!-- <app-loading-bound-circles></app-loading-bound-circles> -->
-            {{config.textLoading??'Loading...'}}
-        </div>
-
-        <div *ngIf="!isSending && formGroup" class="content intro-component-animation" [formGroup]="formGroup!">
-            <div *ngIf="config.imageLogo != '' && config.imageLogo != undefined" class="logo">
-                <a [routerLink]="config.pathHome">
-                    <img [src]="config.imageLogo" alt="">
-                </a>
-            </div>
-
-            <h1> {{ config.textTitle ?? 'Sign IN' }} </h1>
-
-
-            <div *ngIf="step == 1" class="container-step-one">
-                <div *ngIf="userSaved" class="user" (click)="onClickUserSaved()">
-                    <img [src]="userSaved.photo" (error)="onErrorIconAvatarUser($event)" />
-                    <div class="info">
-                        <p><strong>{{userSaved.firstname}} {{userSaved.lastname}}</strong></p>
-                        <p>{{userSaved.email}}</p>
-                    </div>
-                </div>
-                <div class="other-user" (click)="step = 2">
-                    <p>{{ config.textSignInWithOtherUser??'Sign in with other user...' }}</p>
-                </div>
-            </div>
-
-            <div *ngIf="step == 2" class="container-step-one">
-                <mat-form-field *ngIf="step == 2">
-                    <mat-label>{{ config.textEmail??'Email address' }}</mat-label>
-                    <input matInput type="email" name="email_login" formControlName="email"
-                        [placeholder]="config.textEmailPlaceholder??'yourEmail@company.com'" (keyup.enter)="onClickLogin()" />
-                </mat-form-field>
-    
-                <mat-form-field *ngIf="step == 2">
-                    <mat-label>{{ config.textPassword??'Password' }}</mat-label>
-                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
-                        placeholder="********" (keyup.enter)="onClickLogin()" />
-                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
-                        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                </mat-form-field>
-    
-                <button *ngIf="config.hasRecoveryPassword" mat-button color="primary" class="button-small"
-                    [routerLink]="config.pathRecovery"> {{ config.textForgotPassword??'Forgot password' }} </button>
-    
-                <div *ngIf="messageError!=''" class="alert alert-error"><p>{{messageError}}</p></div>
-    
-                <button mat-raised-button color="primary" class="btn" (click)="onClickLogin()"> {{ config.textLoginButton??'SIGN IN' }} </button>
-            </div>
-
-            <div *ngIf="config.hasRegister && step == 2" style="text-align: center;">
-                <a [routerLink]="config.pathRegister" class="link hover-linear body-2"> {{ config.textRegister??'Don’t have an account? Sign Up' }}
-                </a>
-            </div>
-        </div>
+  <div class="column_left">
+    <div *ngIf="isSending" class="content_loading intro_component_blur">
+      <mat-spinner diameter="50"></mat-spinner>
+      <br>
+      {{config.textLoading??'Loading...'}}
     </div>
 
-    <div class="illustration">
-        <h2 class="quote"><i> {{ config.textPhraseRight}} </i></h2>
-        <img *ngIf="config.imageRight != ''" [src]="config.imageRight" alt="illustration" />
+    <div *ngIf="!isSending && formGroup" class="content intro_component_blur" [formGroup]="formGroup!">
+      <div *ngIf="config.imageLogo != '' && config.imageLogo != undefined" class="logo">
+        <a [routerLink]="config.pathHome"><img [src]="config.imageLogo" alt="Logo" /></a>
+      </div>
+
+      <h1> {{ config.textTitle ?? 'LOG IN' }} </h1>
+
+      <div *ngIf="step == 1" class="container_step_one">
+        <div *ngIf="userSaved" class="user" (click)="onClickUserSaved()">
+          <img [src]="userSaved.photo" (error)="onErrorIconAvatarUser($event)" />
+          <div class="info">
+            <p><strong>{{userSaved.firstname}} {{userSaved.lastname}}</strong></p>
+            <p>{{userSaved.email}}</p>
+          </div>
+        </div>
+        <button mat-stroked-button class="btn_other_user" (click)="step = 2"> {{ config.textSignInWithOtherUser??'Log in with other user...' }} </button>
+      </div>
+
+      <div *ngIf="step == 2" class="container_step_two">
+        <mat-form-field *ngIf="step == 2" appearance="outline">
+          <mat-label>{{ config.textEmail??'Email address' }}</mat-label>
+          <input matInput type="email" name="email_login" formControlName="email" [placeholder]="config.textEmailPlaceholder??'yourEmail@company.com'" (keyup.enter)="onClickLogin()" />
+        </mat-form-field>
+
+        <mat-form-field *ngIf="step == 2" appearance="outline">
+          <mat-label>{{ config.textPassword??'Password' }}</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="********" (keyup.enter)="onClickLogin()" />
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button *ngIf="config.hasRecoveryPassword" mat-button class="btn_forgot_pass" [routerLink]="config.pathRecovery"> {{ config.textForgotPassword??'Forgot password' }} </button>
+
+        <div *ngIf="messageError!=''" class="alert_error intro_component_blur"><p>*{{messageError}}</p></div>
+
+        <button mat-flat-button color="primary" class="btn_submit" (click)="onClickLogin()"> {{ config.textLoginButton??'LOG IN' }} </button>
+      </div>
+
+      <div *ngIf="config.hasRegister && step == 2" class="register_section">
+        <a [routerLink]="config.pathRegister"> {{ config.textRegister??'Don’t have an account? Register' }} </a>
+      </div>
     </div>
+  </div>
+
+  <div class="illustration">
+    <!-- <h2 class="quote"><i> {{ config.textPhraseRight}} </i></h2> -->
+    <img *ngIf="config.imageRight != ''" [src]="config.imageRight" alt="illustration" />
+  </div>
+
 </div>
