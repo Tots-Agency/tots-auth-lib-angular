@@ -6,6 +6,7 @@ import { map, Observable, switchMap, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { TotsTokenUser } from '../entities/tots-token-user';
 import { TotsUser } from '../entities/tots-user';
+import { TOTS_AUTH_PROVIDER, TotsAuthConfig } from '../entities/tots-auth-config';
 
 export const TOTS_AUTH_KEY_STORAGE_TOKEN = 'tots.auth.storage';
 
@@ -19,6 +20,7 @@ export class TotsAuthService {
 
   constructor(
     @Inject(TOTS_CORE_PROVIDER) protected config: TotsCoreConfig,
+    @Inject(TOTS_AUTH_PROVIDER) protected configAuth: TotsAuthConfig,
     protected http: HttpClient,
     protected storage: StorageMap
   ) {
@@ -30,7 +32,7 @@ export class TotsAuthService {
   }
 
   signIn(email: string, password: string): Observable<TotsTokenUser> {
-    return this.http.post<TotsTokenUser>(this.config.baseUrl + 'auth/login', { email: email, password: password })
+    return this.http.post<TotsTokenUser>(this.config.baseUrl + (this.configAuth?.signInPath ?? 'auth/login'), { email: email, password: password })
     .pipe(tap(user => this.saveUserInStorage(user)))
     .pipe(tap(user => this.isLoggedIn.next(true)))
     .pipe(tap(user => this.currentUser.next(user)));

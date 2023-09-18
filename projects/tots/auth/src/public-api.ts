@@ -5,6 +5,7 @@
 /**
  * Entities
  */
+export * from './lib/entities/tots-auth-config';
 export * from './lib/entities/tots-user';
 export * from './lib/entities/tots-token-user';
 
