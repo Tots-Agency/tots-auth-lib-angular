@@ -3,7 +3,7 @@
 ## Como empezar
 1. Instalar libreria: npm install --save @tots/core @tots/auth
 2. Importar modulos:
-´´´
+```
 imports: [
     ...
 
@@ -12,9 +12,9 @@ imports: [
     
     ...
   ],
-´´´
+```
 3. Agregar provider para configuracion:
-´´´
+```
   providers: [
     {
       provide: TOTS_CORE_PROVIDER,
@@ -35,17 +35,17 @@ imports: [
       multi: true
     },
   ],
-´´´
+```
 
 ## Realizar un login
 1. Inyectar el servicio:
-´´´
+```
   constructor(
     protected authService: TotsAuthService,
   ) { }
-´´´
+```
 2. Llamar al servicio:
-´´´
+```
   this.authService
     .signIn(email, password)
     .pipe(catchError(error => {
@@ -54,5 +54,5 @@ imports: [
     .subscribe(user => {
       // Usuario logueado y ya guardado en el dispositivo.
     });
-´´´
+```
 
