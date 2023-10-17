@@ -9,6 +9,7 @@ import { TotsCoreModule, TOTS_CORE_PROVIDER } from '@tots/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TotsAuthInterceptor, TotsAuthModule } from '@tots/auth';
 import { TotsAuthLayoutModule } from 'projects/tots/auth-layout/src/public-api';
+import { TOTS_AUTH_PROVIDER, TotsAuthConfig } from 'projects/tots/auth/src/public-api';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,13 @@ import { TotsAuthLayoutModule } from 'projects/tots/auth-layout/src/public-api';
       useValue: {
         baseUrl: 'http://0.0.0.0:8000/'
       }
+    },
+    {
+      provide: TOTS_AUTH_PROVIDER,
+      useValue: {
+        signInPath: 'oauth/token',
+        changePasswordPath: 'users/me/password',
+      } as TotsAuthConfig
     },
     {
       provide: HTTP_INTERCEPTORS,
