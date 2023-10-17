@@ -56,3 +56,21 @@ imports: [
     });
 ```
 
+## Interceptor
+Este Interceptor valida que las peticiones que coinciden con la ruta configurada en el TotsCoreProvider, si es asi, agrega el Token del usuario logueado como "Authorization". 
+
+Para inicializar el interceptor (Ya esta agregado en el paso inicial), solo hay que sumar el provider:
+
+```
+  providers: [
+    ...
+
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TotsAuthInterceptor,
+      multi: true
+    },
+    
+    ...
+  ],
+```
