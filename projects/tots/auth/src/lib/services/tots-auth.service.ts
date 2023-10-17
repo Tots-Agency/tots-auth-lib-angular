@@ -28,7 +28,7 @@ export class TotsAuthService {
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<TotsUser> {
-    return this.http.post<TotsUser>(this.config.baseUrl + 'auth/change-password', { old_password: oldPassword, password: newPassword });
+    return this.http.post<TotsUser>(this.config.baseUrl + (this.configAuth?.changePasswordPath ?? 'auth/change-password'), { old_password: oldPassword, password: newPassword });
   }
 
   signIn(email: string, password: string): Observable<TotsTokenUser> {

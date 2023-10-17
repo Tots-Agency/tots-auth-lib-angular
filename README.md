@@ -1,27 +1,58 @@
-# TotsAuthLibAngular
+# Tots Auth Library for Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
+## Como empezar
+1. Instalar libreria: npm install --save @tots/core @tots/auth
+2. Importar modulos:
+´´´typescript
+imports: [
+    ...
 
-## Development server
+    TotsCoreModule,
+    TotsAuthModule,
+    
+    ...
+  ],
+´´´
+3. Agregar provider para configuracion:
+´´´typescript
+  providers: [
+    {
+      provide: TOTS_CORE_PROVIDER,
+      useValue: {
+        baseUrl: 'http://0.0.0.0:8000/'
+      }
+    },
+    {
+      provide: TOTS_AUTH_PROVIDER,
+      useValue: {
+        signInPath: 'oauth/token',
+        changePasswordPath: 'users/me/password',
+      } as TotsAuthConfig
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TotsAuthInterceptor,
+      multi: true
+    },
+  ],
+´´´
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Realizar un login
+1. Inyectar el servicio:
+´´´typescript
+  constructor(
+    protected authService: TotsAuthService,
+  ) { }
+´´´
+2. Llamar al servicio:
+´´´typescript
+  this.authService
+    .signIn(email, password)
+    .pipe(catchError(error => {
+      // Usuario incorrecto
+    }))
+    .subscribe(user => {
+      // Usuario logueado y ya guardado en el dispositivo.
+    });
+´´´
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
