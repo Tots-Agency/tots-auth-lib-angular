@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, delay, map, of, take, takeWhile, tap } from 'rxjs';
 import { TotsAuthService } from '../services/tots-auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TotsAuthGuard implements CanActivate {
+export class TotsAuthGuard  {
 
     constructor(
       protected authService: TotsAuthService,
