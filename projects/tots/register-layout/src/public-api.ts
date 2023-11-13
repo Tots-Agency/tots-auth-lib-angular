@@ -3,6 +3,11 @@
  */
 
 /**
+ * Pages
+ */
+export * from './lib/pages/register-basic-page/register-basic-page.component';
+
+/**
  * Modules
  */
 export * from './lib/register-layout.module';
