@@ -8,6 +8,9 @@
       ],
       "@tots/auth-layout": [
         "dist/tots/auth-layout"
+      ],
+      "@tots/register-layout": [
+        "dist/tots/register-layout"
       ]
     },
     "baseUrl": "./",
