@@ -32,7 +32,11 @@ export class TotsAuthService {
   }
 
   signIn(email: string, password: string): Observable<TotsTokenUser> {
-    return this.http.post<TotsTokenUser>(this.config.baseUrl + (this.configAuth?.signInPath ?? 'auth/login'), { email: email, password: password })
+    let params: any = {};
+    params[this.configAuth?.userParam ?? 'email'] = email;
+    params['password'] = password;
+
+    return this.http.post<TotsTokenUser>(this.config.baseUrl + (this.configAuth?.signInPath ?? 'auth/login'), params)
     .pipe(tap(user => this.saveUserInStorage(user)))
     .pipe(tap(user => this.isLoggedIn.next(true)))
     .pipe(tap(user => this.currentUser.next(user)));
