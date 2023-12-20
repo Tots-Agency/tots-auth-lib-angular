@@ -3,7 +3,7 @@ export class TotsUser {
     static STATUS_ACTIVE = 1;
     static STATUS_SUSPENDED = 2;
 
-    public id?: number;
+    public id?: number|string;
     public firstname: string = '';
     public lastname: string = '';
     public email: string = '';
