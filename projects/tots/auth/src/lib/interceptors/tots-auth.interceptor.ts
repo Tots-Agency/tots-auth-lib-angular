@@ -3,9 +3,10 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpResponse
 } from '@angular/common/http';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { TotsCoreConfig, TOTS_CORE_PROVIDER } from '@tots/core';
 import { TotsAuthService } from '../services/tots-auth.service';
 
@@ -25,6 +26,11 @@ export class TotsAuthInterceptor implements HttpInterceptor {
     return this.authService.getUserFromStorage()
     .pipe(switchMap(user => next.handle(request.clone({
       setHeaders: { 'Authorization': 'Bearer ' + user.access_token }
-    }))));
+    }))))
+    .pipe(tap(event => {
+      if(event instanceof HttpResponse && event.status == 401){
+        this.authService.signOut().subscribe();
+      }
+    }));
   }
 }
