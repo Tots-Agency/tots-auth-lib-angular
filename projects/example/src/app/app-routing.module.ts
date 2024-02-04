@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginBasicPageComponent, TotsBaseLoginPageConfig } from 'projects/tots/auth-layout/src/public-api';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TotsAuthGuard } from 'projects/tots/auth/src/public-api';
+import { RegisterBasicComponent } from './pages/register-basic/register-basic.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       hasRecoveryPassword: true,
     } as TotsBaseLoginPageConfig
   },
+  { path: 'auth/register', component: RegisterBasicComponent },
   { path: 'dashboard',canActivate: [TotsAuthGuard], component: DashboardComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];

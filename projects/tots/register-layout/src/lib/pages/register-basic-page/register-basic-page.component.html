@@ -1,1 +1,54 @@
-<p>register-basic-page works!</p>
+<div class="register">
+
+  <div class="row">
+    <div class="logo"><a [routerLink]="['/']"><img src="/assets/img/logos/logo.png" alt="Dorotea" /></a></div>
+    <p>
+      <button *ngIf="sectionActive == 1" mat-icon-button matTooltip="Volver" (click)="sectionActive = 0"><mat-icon>arrow_back</mat-icon></button>
+      <span>Register {{ sectionActive + 1 }}/3</span>
+    </p>
+  </div>
+
+  <div *ngIf="isSending" class="content">
+    <tots-loading-factory [type]="'square-in-bits'" [isFullPage]="true" [color]="'green'"></tots-loading-factory>
+  </div>
+
+  <div *ngIf="sectionActive == 0 && !isSending" class="content intro-component-animation register-section-1">
+    <h1><b>¡Bienvenido a Dorotea!</b></h1>
+    <p class="text-caption">Entra y descubre el mundo de las subastas en línea.</p>
+
+    <div class="buttons">
+      <hr style="width: 100%; opacity: 0.2;">
+      <button mat-stroked-button (click)="sectionActive = 1">
+        <img src="/assets/img/icons/mail_outline.png" />
+        <span>Continuar con tu email</span>
+      </button>
+    </div>
+
+    <p class="error-message">{{messageError}}</p>
+
+    <div class="link-login">
+        <a class="link hover-linear body-2"> ¿Ya tienes una cuenta? Iniciar sesión </a>
+    </div>
+  </div>
+
+  <div *ngIf="sectionActive == 1 && !isSending" class="content intro-component-animation register-section-2">
+    <div class="form">
+      <h1><b>Crea tu cuenta</b></h1>
+      <p class="text-caption"> Ingresa los siguientes datos para completar tu registro con Dorotea.</p>
+      <!--<mia-form *ngIf="config" #miaForm [config]="config" [item]="item"></mia-form>-->
+      <p class="error-message">{{messageError}}</p>
+      <button mat-raised-button color="primary" class="btn" (click)="onClickRegister()">CREAR CUENTA</button>
+      <p><small>Haga clic en "Crear cuenta" para aceptar las <a [routerLink]="'/legales/terminos-y-condiciones'" class="link hover-linear">términos y condiciones</a> de Dorotea y reconocer que la <a [routerLink]="'/legales/politica-de-privacidad'" class="link hover-linear">política de privacidad</a> se aplica a usted.</small></p>
+    </div>
+  </div>
+
+  <div *ngIf="sectionActive == 2 && !isSending" class="content intro-component-animation register-section-3">
+    <h1 class="color-success">Encantado de tenerte a bordo!</h1>
+    <p style="margin-bottom: 3rem;">Hemos enviado un correo electrónico con un enlace de confirmación a su dirección de correo electrónico.</p>
+    <a mat-flat-button color="primary" [routerLink]="['/']">Volver al inicio</a>
+  </div>
+
+  <div class="illustration">
+    <img src="/assets/img/illustrations/register-illustration.png" alt="Personal illustration" />
+  </div>
+</div>

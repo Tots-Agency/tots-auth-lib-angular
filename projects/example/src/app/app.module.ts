@@ -11,10 +11,14 @@ import { TotsAuthInterceptor, TotsAuthModule } from '@tots/auth';
 import { TotsAuthLayoutModule } from 'projects/tots/auth-layout/src/public-api';
 import { TOTS_AUTH_PROVIDER, TotsAuthConfig } from 'projects/tots/auth/src/public-api';
 
+import { TotsRegisterLayoutModule } from 'projects/tots/register-layout/src/public-api';
+import { RegisterBasicComponent } from './pages/register-basic/register-basic.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    RegisterBasicComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +27,8 @@ import { TOTS_AUTH_PROVIDER, TotsAuthConfig } from 'projects/tots/auth/src/publi
 
     TotsCoreModule,
     TotsAuthModule,
-    TotsAuthLayoutModule
+    TotsAuthLayoutModule,
+    TotsRegisterLayoutModule,
   ],
   providers: [
     {

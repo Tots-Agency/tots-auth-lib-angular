@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class RegisterBasicPageComponent {
 
+  isSending = false;
+
+  sectionActive = 0;
+
+  messageError = '';
+
+  constructor() { }
+
+  onClickRegister() {
+
+  }
 }
