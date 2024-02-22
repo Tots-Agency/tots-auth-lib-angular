@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TotsCoreConfig, TOTS_CORE_PROVIDER } from '@tots/core';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { map, Observable, Subject, switchMap, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { TotsTokenUser } from '../entities/tots-token-user';
 import { TotsUser } from '../entities/tots-user';
@@ -17,6 +17,7 @@ export class TotsAuthService {
 
   public isLoggedIn = new BehaviorSubject<boolean>(false);
   public currentUser = new BehaviorSubject<TotsTokenUser>(new TotsTokenUser());
+  public isLogout = new Subject<boolean>();
 
   constructor(
     @Inject(TOTS_CORE_PROVIDER) protected config: TotsCoreConfig,
@@ -45,6 +46,7 @@ export class TotsAuthService {
   signOut(): Observable<any> {
     return this.removeUserInStorage()
     .pipe(tap(res => this.isLoggedIn.next(false)))
+    .pipe(tap(res => this.isLogout.next(true)))
     .pipe(tap(res => this.currentUser.next(new TotsTokenUser())));
   }
 
