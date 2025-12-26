@@ -1,13 +1,13 @@
 {
   "name": "@tots/auth-layout",
-  "version": "15.0.7",
+  "version": "20.0.0",
   "peerDependencies": {
-    "@angular/common": "^15.0.0",
-    "@angular/core": "^15.0.0",
-    "@tots/auth": "^15.0.0",
-    "@tots/core": "^15.0.0"
+    "@angular/common": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@tots/auth": "^20.0.0",
+    "@tots/core": "^20.0.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.8.0"
   }
 }

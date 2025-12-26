@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageMap } from '@ngx-pwa/local-storage';
@@ -11,7 +11,8 @@ export const TOTS_AUTH_LAYOUT_KEY_STORAGE_EMAIL = 'tots.auth.layout.storage';
 @Component({
   selector: 'tots-login-basic-page',
   templateUrl: './login-basic-page.component.html',
-  styleUrls: ['./login-basic-page.component.scss']
+  styleUrls: ['./login-basic-page.component.scss'],
+  standalone: false
 })
 export class LoginBasicPageComponent implements OnInit {
 
@@ -19,12 +20,12 @@ export class LoginBasicPageComponent implements OnInit {
 
   formGroup?: UntypedFormGroup;
 
-  hidePassword = true;
+  hidePassword = signal(true);
   messageError = '';
-  isSending = true;
+  isSending = signal(true);
 
   userSaved?: TotsUser;
-  step = 1;
+  step = signal(1);
 
   constructor(
     protected route: ActivatedRoute,
@@ -41,7 +42,7 @@ export class LoginBasicPageComponent implements OnInit {
   }
 
   onClickLogin() {
-    if(this.isSending){
+    if(this.isSending()){
       return;
     }
 
@@ -57,11 +58,11 @@ export class LoginBasicPageComponent implements OnInit {
       return;
     }
 
-    this.isSending = true;
+    this.isSending.set(true);
     this.authService
     .signIn(this.formGroup!.get('email')!.value, this.formGroup!.get('password')!.value)
     .pipe(catchError(error => {
-      this.isSending = false;
+      this.isSending.set(false);
       if (error && error.message) {
         this.messageError = error.message;
       }
@@ -73,7 +74,7 @@ export class LoginBasicPageComponent implements OnInit {
     .pipe(tap(user => this.roleValidation(user)))
     .subscribe(res => {
       this.saveUserInBrowser(res);
-      this.isSending = false;
+      this.isSending.set(false);
       this.router.navigateByUrl(this.config.pathSuccess);
     });
 
@@ -88,7 +89,7 @@ export class LoginBasicPageComponent implements OnInit {
       return;
     }
 
-    this.isSending = false;
+    this.isSending.set(false);
     this.messageError = 'Role not valid';
     this.authService.signOut().subscribe();
     throw 'Role not valid';
@@ -97,7 +98,7 @@ export class LoginBasicPageComponent implements OnInit {
 
   onClickUserSaved() {
     this.formGroup?.get('email')?.setValue(this.userSaved?.email);
-    this.step = 2;
+    this.step.set(2);
   }
 
   saveUserInBrowser(user: TotsTokenUser) {
@@ -114,14 +115,14 @@ export class LoginBasicPageComponent implements OnInit {
 
   verifyIfSavedUser() {
     if(!this.config.hasSavedUser){
-      this.step = 2;
+      this.step.set(2);
       return;
     }
 
     this.storage.get<string>(TOTS_AUTH_LAYOUT_KEY_STORAGE_EMAIL, { type: 'string' })
     .subscribe(data => {
       if(data == undefined||data == ''){
-        this.step = 2;
+        this.step.set(2);
         return;
       }
 
@@ -165,7 +166,7 @@ export class LoginBasicPageComponent implements OnInit {
       return true;
     }))
     .subscribe(isLogged => {
-      this.isSending = false;
+      this.isSending.set(false);
       if(isLogged){
         this.router.navigateByUrl(this.config.pathSuccess);
       }

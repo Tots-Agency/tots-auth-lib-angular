@@ -1,60 +1,106 @@
-<div *ngIf="config" class="login_page intro_component_blur">
+@if (config) {
+	<div class="login_page intro_component_blur">
 
-  <div class="column_left">
-    <div *ngIf="isSending" class="content_loading intro_component_blur">
-      <mat-spinner diameter="50"></mat-spinner>
-      <br>
-      {{config.textLoading??'Loading...'}}
-    </div>
+		<div class="column_left">
 
-    <div *ngIf="!isSending && formGroup" class="content intro_component_blur" [formGroup]="formGroup!">
-      <div *ngIf="config.imageLogo != '' && config.imageLogo != undefined" class="logo">
-        <a [routerLink]="config.pathHome"><img [src]="config.imageLogo" alt="Logo" /></a>
-      </div>
+			@if (isSending()) {
 
-      <h1> {{ config.textTitle ?? 'LOG IN' }} </h1>
+				<div class="content_loading intro_component_blur">
+					<mat-spinner diameter="50"></mat-spinner>
+					<br>
+					{{config.textLoading??'Loading...'}}
+				</div>
 
-      <div *ngIf="step == 1" class="container_step_one">
-        <div *ngIf="userSaved" class="user" (click)="onClickUserSaved()">
-          <img [src]="userSaved.photo" (error)="onErrorIconAvatarUser($event)" />
-          <div class="info">
-            <p><strong>{{userSaved.firstname}} {{userSaved.lastname}}</strong></p>
-            <p>{{userSaved.email}}</p>
-          </div>
-        </div>
-        <button mat-stroked-button class="btn_other_user" (click)="step = 2"> {{ config.textSignInWithOtherUser??'Log in with other user...' }} </button>
-      </div>
+			} @else {
 
-      <div *ngIf="step == 2" class="container_step_two">
-        <mat-form-field *ngIf="step == 2" appearance="outline">
-          <mat-label>{{ config.textEmail??'Email address' }}</mat-label>
-          <input matInput type="email" name="email_login" formControlName="email" [placeholder]="config.textEmailPlaceholder??'yourEmail@company.com'" (keyup.enter)="onClickLogin()" />
-        </mat-form-field>
+				@if (formGroup) {
+					<div class="content intro_component_blur" [formGroup]="formGroup!">
 
-        <mat-form-field *ngIf="step == 2" appearance="outline">
-          <mat-label>{{ config.textPassword??'Password' }}</mat-label>
-          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="********" (keyup.enter)="onClickLogin()" />
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
+						@if (config.imageLogo != '' && config.imageLogo != undefined) {
+							<div class="logo">
+								<a [routerLink]="config.pathHome"><img [src]="config.imageLogo" alt="Logo" /></a>
+							</div>
+						}
 
-        <button *ngIf="config.hasRecoveryPassword" mat-button class="btn_forgot_pass" [routerLink]="config.pathRecovery"> {{ config.textForgotPassword??'Forgot password' }} </button>
+						<h1> {{ config.textTitle ?? 'LOG IN' }} </h1>
 
-        <div *ngIf="messageError!=''" class="alert_error intro_component_blur"><p>*{{messageError}}</p></div>
+						@if (step() == 1) {
+							<div class="container_step_one">
 
-        <button mat-flat-button color="primary" class="btn_submit" (click)="onClickLogin()"> {{ config.textLoginButton??'LOG IN' }} </button>
-      </div>
+								@if (userSaved) {
+									<div class="user" (click)="onClickUserSaved()">
+										<img [src]="userSaved.photo" (error)="onErrorIconAvatarUser($event)" />
+										<div class="info">
+											<p><strong>{{userSaved.firstname}} {{userSaved.lastname}}</strong></p>
+											<p>{{userSaved.email}}</p>
+										</div>
+									</div>
+								}
 
-      <div *ngIf="config.hasRegister && step == 2" class="register_section">
-        <a [routerLink]="config.pathRegister"> {{ config.textRegister??'Don’t have an account? Register' }} </a>
-      </div>
-    </div>
-  </div>
+								<button mat-stroked-button class="btn_other_user" (click)="step.set(2)">
+									{{ config.textSignInWithOtherUser??'Log in with other user...' }}
+								</button>
+							</div>
+						}
 
-  <div class="illustration">
-    <!-- <h2 class="quote"><i> {{ config.textPhraseRight}} </i></h2> -->
-    <img *ngIf="config.imageRight != ''" [src]="config.imageRight" alt="illustration" />
-  </div>
+						@if (step() == 2) {
+							<div class="container_step_two">
 
-</div>
+								<mat-form-field appearance="outline">
+									<mat-label>{{ config.textEmail??'Email address' }}</mat-label>
+									<input matInput type="email" name="email_login" formControlName="email"
+										[placeholder]="config.textEmailPlaceholder??'yourEmail@company.com'"
+										(keyup.enter)="onClickLogin()" />
+								</mat-form-field>
+
+								<mat-form-field appearance="outline">
+									<mat-label>{{ config.textPassword??'Password' }}</mat-label>
+									<input matInput [type]="hidePassword() ? 'password' : 'text'"
+										formControlName="password" placeholder="********"
+										(keyup.enter)="onClickLogin()" />
+									<button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())"
+										[attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+										<mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+									</button>
+								</mat-form-field>
+
+								@if (config.hasRecoveryPassword) {
+									<button mat-button class="btn_forgot_pass" [routerLink]="config.pathRecovery">
+										{{ config.textForgotPassword ?? 'Forgot password' }}
+									</button>
+								}
+
+								@if (messageError) {
+									<div class="alert_error intro_component_blur">
+										<p>*{{messageError}}</p>
+									</div>
+								}
+								
+								<button mat-flat-button color="primary" class="btn_submit" (click)="onClickLogin()">
+									{{ config.textLoginButton??'LOG IN' }}
+								</button>
+							</div>
+						}
+
+						@if (config.hasRegister && step() == 2) {
+							<div class="register_section">
+								<a [routerLink]="config.pathRegister">
+									{{ config.textRegister??"Don't have an account? Register" }}
+								</a>
+							</div>
+						}
+						
+					</div>
+				}
+			}
+
+		</div>
+
+		<div class="illustration">
+			@if (config.imageRight) {
+				<img [src]="config.imageRight" alt="illustration" />
+			}
+		</div>
+
+	</div>
+}
